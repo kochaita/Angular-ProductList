@@ -1,0 +1,39 @@
+Search Product : <input [(ngModel)]='listFilter' type="text">
+<br><br>
+Searching for : {{listFilter}}
+<br><br>
+<button (click)='toggleImage()'>{{showImage ? 'Hide' : 'Show'}}  Image</button>
+<br><br>
+<table border="1" *ngIf='filteredProducts && filteredProducts.length'>
+    <tr>
+        <th>Product Image</th>
+        <th>Product ID</th>
+        <th>Product Name</th>
+        <th>Product Code</th>
+        <th>Release Date</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Rating</th>
+    </tr>
+    <tr *ngFor='let product of filteredProducts'>
+        <td>
+            <img [src]='product.imageUrl'
+             [title]='product.productName'
+             [style.width.px]='imageWidth'
+             [style.width.px]='imageHeight' *ngIf='showImage'/> <!-- Property Binding / [] is binding target -->
+        </td>
+        <td>{{product.productId}}</td>
+        <td>
+            <a [routerLink]="['/products', product.productId]">{{product.productName}}</a>
+        </td>
+        <td>{{product.productCode}}</td>
+        <td>{{product.releaseDate}}</td>
+        <td>{{product.description}}</td>
+        <td>{{product.price | currency:'USD':'symbol':'1.2-2'}}</td>
+        <td>
+            <star [rating]='product.starRating'></star>
+        </td>
+    </tr>
+</table>
+
+<p *ngIf='!(filteredProducts && filteredProducts.length)'>No search results !</p>
